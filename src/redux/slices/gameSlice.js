@@ -10,7 +10,7 @@ const defaultState = {
 }
 
 export const gameSlice = createSlice({
-    name: 'tic',
+    name: 'game',
     initialState: defaultState,
     reducers: {
         swapTurn: (state, action) => {
@@ -21,5 +21,8 @@ export const gameSlice = createSlice({
 });
 
 export const { swapTurn } = gameSlice.actions;
+
+export const getStatus = state => state.game.boardStatus;
+export const getCurrent = state => state.game.currentTurn;
 
 export default gameSlice.reducer;
