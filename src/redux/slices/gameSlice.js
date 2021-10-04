@@ -13,14 +13,19 @@ export const gameSlice = createSlice({
     name: 'game',
     initialState: defaultState,
     reducers: {
-        swapTurn: (state, action) => {
+        tileClick: (state, action) => {
             const { currentTurn } = state;
-            return currentTurn === 'X' ? 'O' : 'X';
+            const [row, col] = action.payload;
+            state.boardStatus[row][col] = currentTurn;
+            state.currentTurn = currentTurn === 'X' ? 'O' : 'X';
+        },
+        restart: (state, action) => {
+            return defaultState;
         },
     },
 });
 
-export const { swapTurn } = gameSlice.actions;
+export const { tileClick, restart } = gameSlice.actions;
 
 export const getStatus = state => state.game.boardStatus;
 export const getCurrent = state => state.game.currentTurn;
