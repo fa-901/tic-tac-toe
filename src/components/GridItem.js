@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const GridItem = ({onClick, value}) => {
+const GridItem = ({ onClick, value, isDisabled }) => {
+    let disabled = (value || isDisabled) ? 'cursor-not-allowed' : 'cursor-pointer';
     return (
-        <div className="tictac-cell" onClick={onClick}>
+        <div className={`tictac-cell ${disabled}`} onClick={() => { !(value || isDisabled) && onClick() }}>
             {value}
         </div>
     )

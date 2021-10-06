@@ -30,6 +30,8 @@ export const gameSlice = createSlice({
 });
 
 const getWinner = (gridState, player, history) => {
+    let ltrDiagonal = [];
+    let rtlDiagonal = [];
     for (let i = 0; i < gridState.length; i++) {
         /**horizontal rule-checking */
         const sameRow = gridState[i].every((item) => { return item === player });
@@ -39,16 +41,22 @@ const getWinner = (gridState, player, history) => {
 
         /**vertical rule-checking */
         let sameCol = true;
-        for (let j = 0; j < gridState.length; j++) {
+        for (let j = 0; j < gridState[i].length; j++) {
             if (gridState[j][i] !== player) {
                 sameCol = false;
             }
+            if (j === i) {
+                ltrDiagonal.push(gridState[i][j]);
+            }
         }
         if (sameCol) {
-            return player
+            return player;
         }
-
         /**diagonal rule-checking */
+    }
+    let sameDiagonal = ltrDiagonal.every((item) => { return item === player });
+    if (sameDiagonal) {
+        return player;
     }
     if (history.length === 9) {
         return 'tie';
