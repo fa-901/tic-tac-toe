@@ -1,4 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { LOCAL_STATE_KEY } from '../../constants';
+
+const localData = localStorage.getItem(LOCAL_STATE_KEY) ? JSON.parse(localStorage.getItem(LOCAL_STATE_KEY)) : '';
 
 const defaultState = {
     gridState: [
@@ -13,7 +16,7 @@ const defaultState = {
 
 export const gameSlice = createSlice({
     name: 'game',
-    initialState: defaultState,
+    initialState: localData ? localData : defaultState,
     reducers: {
         tileClick: (state, action) => {
             const { currentTurn, gridState, history } = state;
@@ -22,8 +25,10 @@ export const gameSlice = createSlice({
             state.history.push(`${currentTurn} on row ${row + 1}, column ${col + 1}`);
             state.winner = getWinner(gridState, currentTurn, history);
             state.currentTurn = currentTurn === 'X' ? 'O' : 'X';
+            localStorage.setItem(LOCAL_STATE_KEY, JSON.stringify(state));
         },
         restart: (state, action) => {
+            localStorage.setItem(LOCAL_STATE_KEY, JSON.stringify(defaultState));
             return defaultState;
         },
     },

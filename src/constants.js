@@ -1,0 +1,1 @@
+export const LOCAL_STATE_KEY = `game_state`;
