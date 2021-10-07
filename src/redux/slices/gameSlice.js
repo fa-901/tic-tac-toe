@@ -32,6 +32,7 @@ export const gameSlice = createSlice({
 const getWinner = (gridState, player, history) => {
     let ltrDiagonal = [];
     let rtlDiagonal = [];
+    let reversed = [...gridState].reverse();
     for (let i = 0; i < gridState.length; i++) {
         /**horizontal rule-checking */
         const sameRow = gridState[i].every((item) => { return item === player });
@@ -47,6 +48,7 @@ const getWinner = (gridState, player, history) => {
             }
             if (j === i) {
                 ltrDiagonal.push(gridState[i][j]);
+                rtlDiagonal.push(reversed[i][j]);
             }
         }
         if (sameCol) {
@@ -54,7 +56,7 @@ const getWinner = (gridState, player, history) => {
         }
         /**diagonal rule-checking */
     }
-    let sameDiagonal = ltrDiagonal.every((item) => { return item === player });
+    let sameDiagonal = ltrDiagonal.every((item) => { return item === player }) || rtlDiagonal.every((item) => { return item === player });
     if (sameDiagonal) {
         return player;
     }
